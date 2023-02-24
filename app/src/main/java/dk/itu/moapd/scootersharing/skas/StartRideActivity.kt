@@ -23,10 +23,10 @@
  */
 package dk.itu.moapd.scootersharing.skas
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.skas.databinding.ActivityMainBinding
 
 /**
@@ -35,37 +35,40 @@ import dk.itu.moapd.scootersharing.skas.databinding.ActivityMainBinding
  * @author søren kastrup (skas@itu.dk)
  * @constructor Creates a new activity object
  */
-class MainActivity : AppCompatActivity() {
+class StartRideActivity : AppCompatActivity() {
     // A set of private constants used in this class.
     companion object {
-        private lateinit var adapter: ListRidesAdapter
-        lateinit var ridesDB: RidesDB
+        private val TAG = StartRideActivity::class.qualifiedName
     }
 
+    // GUI variables.
+    private val scooter : Scooter = Scooter (" " ," ", 0)
+
     /**
-     * Called when a new MainActivity object is created
+     * Called when a new StartRideActivity object is created
      * @return none
-     */
+     * */
     override fun onCreate (savedInstanceState : Bundle ?) {
         WindowCompat.setDecorFitsSystemWindows(window,false)
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ridesDB = RidesDB.get(this)
 
+        // When the ride button is pressed
         binding.startRideButton.setOnClickListener {
-            val intent = Intent(baseContext, StartRideActivity::class.java)
-            startActivity(intent)
-        }
+            if (binding.editTextName.text.isNotEmpty() && binding.editTextLocation.text.isNotEmpty()){
+                // Update the object attributes.
+                scooter.name = binding.editTextName.text.toString().trim()
+                scooter.location = binding.editTextLocation.text.toString().trim()
+                scooter.timestamp = System.currentTimeMillis()
 
-        binding.updateRideButton.setOnClickListener {
-            val intent = Intent(baseContext, UpdateRideActivity::class.java)
-            startActivity(intent)
-        }
+                // Reset the text fields and update the UI.
+                binding.editTextName.text.clear()
+                binding.editTextLocation.text.clear()
 
-        binding.listRidesButton.setOnClickListener {
-            adapter = ListRidesAdapter(this,R.layout.list_rides, ridesDB.getRidesList())
-            binding.listRidesView.adapter = adapter
+                // Shows a snackbar message on the screen
+                Snackbar.make(binding.root, "Ride started using Scooter(name=${scooter.name}, location=${scooter.location})", Snackbar.LENGTH_LONG).show();
+            }
         }
     }
 }
