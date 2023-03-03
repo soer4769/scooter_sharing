@@ -23,11 +23,8 @@
  */
 package dk.itu.moapd.scootersharing.skas
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import dk.itu.moapd.scootersharing.skas.databinding.ActivityMainBinding
 
 /**
  * The main class for a app object
@@ -36,36 +33,17 @@ import dk.itu.moapd.scootersharing.skas.databinding.ActivityMainBinding
  * @constructor Creates a new activity object
  */
 class MainActivity : AppCompatActivity() {
-    // A set of private constants used in this class.
-    companion object {
-        private lateinit var adapter: ListRidesAdapter
-        lateinit var ridesDB: RidesDB
-    }
-
-    /**
-     * Called when a new MainActivity object is created
-     * @return none
-     */
     override fun onCreate (savedInstanceState : Bundle ?) {
-        WindowCompat.setDecorFitsSystemWindows(window,false)
         super.onCreate(savedInstanceState)
-        val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        ridesDB = RidesDB.get(this)
+        setContentView(R.layout.activity_main)
 
-        binding.startRideButton.setOnClickListener {
-            val intent = Intent(baseContext, StartRideActivity::class.java)
-            startActivity(intent)
-        }
+        val mainFragment = MainFragment()
+        val startRideFragment = StartRideFragment()
+        val updateRideFragment = UpdateRideFragment()
 
-        binding.updateRideButton.setOnClickListener {
-            val intent = Intent(baseContext, UpdateRideActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.listRidesButton.setOnClickListener {
-            adapter = ListRidesAdapter(this,R.layout.list_rides, ridesDB.getRidesList())
-            binding.listRidesView.adapter = adapter
-        }
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragment_container_view, mainFragment)
+            .commit()
     }
 }

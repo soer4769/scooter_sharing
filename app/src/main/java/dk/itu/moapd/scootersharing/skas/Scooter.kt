@@ -31,7 +31,7 @@ package dk.itu.moapd.scootersharing.skas
  * @property location is coordinates for the scooter
  * @constructor Creates a new scooter object
  */
-data class Scooter(val name: String, var location: String, var timestamp: Long) {
+data class Scooter(var name: String, var location: String, var timestamp: Long) {
     /**
      * Returns a string containing the name and location of the scooter
      * @return String containing name and location
