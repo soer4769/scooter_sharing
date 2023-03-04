@@ -64,16 +64,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.startRideButton.setOnClickListener {
-            val intent = Intent(activity, StartRideActivity::class.java)
-            activity?.startActivity(intent)
-        }
-
-        binding.updateRideButton.setOnClickListener {
-            val intent = Intent(activity, UpdateRideActivity::class.java)
-            activity?.startActivity(intent)
-        }
+        val mainActivity = context as MainActivity
 
         binding.listRidesButton.setOnClickListener {
             adapter = ListRidesAdapter(requireContext(),R.layout.list_rides, ridesDB.getRidesList())

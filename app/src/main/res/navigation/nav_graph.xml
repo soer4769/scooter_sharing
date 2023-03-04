@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@layout/fragment_main"
+    android:id="@+id/nav_graph">
+
+    <fragment
+        android:id="@+id/main_fragment"
+        android:name="dk.itu.moapd.scootersharing.skas.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main"  />
+
+    <fragment
+        android:id="@+id/start_ride_fragment"
+        android:name="dk.itu.moapd.scootersharing.skas.StartRideFragment"
+        android:label="fragment_start_ride"
+        tools:layout="@layout/fragment_start_ride" />
+
+    <fragment
+        android:id="@+id/update_ride_fragment"
+        android:name="dk.itu.moapd.scootersharing.skas.UpdateRideFragment"
+        android:label="fragment_update_ride"
+        tools:layout="@layout/fragment_update_ride" />
+
+</navigation>

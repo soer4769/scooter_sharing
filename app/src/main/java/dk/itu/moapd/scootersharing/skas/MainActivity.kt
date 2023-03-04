@@ -25,6 +25,13 @@ package dk.itu.moapd.scootersharing.skas
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+import dk.itu.moapd.scootersharing.skas.databinding.ActivityMainBinding
 
 /**
  * The main class for a app object
@@ -33,17 +40,15 @@ import androidx.appcompat.app.AppCompatActivity
  * @constructor Creates a new activity object
  */
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
     override fun onCreate (savedInstanceState : Bundle ?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val mainFragment = MainFragment()
-        val startRideFragment = StartRideFragment()
-        val updateRideFragment = UpdateRideFragment()
-
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragment_container_view, mainFragment)
-            .commit()
+        navController = Navigation.findNavController(this,R.id.fragment_container_view)
+        binding.navBottom.setupWithNavController(navController)
     }
 }
