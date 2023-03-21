@@ -23,6 +23,7 @@
  */
 package dk.itu.moapd.scootersharing.skas
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +39,6 @@ import dk.itu.moapd.scootersharing.skas.databinding.FragmentStartRideBinding
  * @constructor Creates a new activity object
  */
 class StartRideFragment : Fragment() {
-    private var scooter : Scooter = Scooter (" " ," ", 0)
     private var _binding: FragmentStartRideBinding?= null
     private val binding get() = _binding!!
 
@@ -57,17 +57,25 @@ class StartRideFragment : Fragment() {
 
         binding.startRideButton.setOnClickListener {
             if (binding.editTextName.text.isNotEmpty() && binding.editTextLocation.text.isNotEmpty()){
-                // Update the object attributes.
-                scooter.name = binding.editTextName.text.toString().trim()
-                scooter.location = binding.editTextLocation.text.toString().trim()
-                scooter.timestamp = System.currentTimeMillis()
+                AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.add_ride_dialog_title)
+                    .setPositiveButton("Yes") { dialog, which ->
+                        // Add the object attributes.
+                        val scooter : Scooter = Scooter (" " ," ", 0)
+                        scooter.name = binding.editTextName.text.toString().trim()
+                        scooter.location = binding.editTextLocation.text.toString().trim()
+                        scooter.timestamp = System.currentTimeMillis()
+                        MainFragment.ridesDB.addScooter(scooter)
 
-                // Reset the text fields and update the UI.
-                binding.editTextName.text.clear()
-                binding.editTextLocation.text.clear()
+                        // Reset the text fields and update the UI.
+                        binding.editTextName.text.clear()
+                        binding.editTextLocation.text.clear()
 
-                // Shows a snackbar message on the screen
-                Snackbar.make(binding.root, "Ride started using Scooter(name=${scooter.name}, location=${scooter.location})", Snackbar.LENGTH_LONG).show();
+                        // Shows a snackbar message on the screen
+                        Snackbar.make(binding.root, "Ride started using Scooter(name=${scooter.name}, location=${scooter.location})", Snackbar.LENGTH_LONG).show();
+                    }
+                    .create()
+                    .show()
             }
         }
     }

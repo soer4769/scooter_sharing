@@ -1,35 +1,26 @@
 package dk.itu.moapd.scootersharing.skas
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import dk.itu.moapd.scootersharing.skas.databinding.ListRidesBinding
 
-class ListRidesAdapter(context: Context, private var resource: Int, data: List<Scooter>) :
-    ArrayAdapter<Scooter>(context, R.layout.list_rides, data) {
-
-    private class ViewHolder(view: View) {
-        val name: TextView = view.findViewById(R.id.scooter_name)
-        val location: TextView = view.findViewById(R.id.scooter_location)
-        val timestamp: TextView = view.findViewById(R.id.scooter_timestamp)
+class ListRidesAdapter(private val scooterList: ArrayList<Scooter>) : RecyclerView.Adapter<ListRidesAdapter.ListRidesViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListRidesViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ListRidesBinding.inflate(inflater, parent, false)
+        return ListRidesViewHolder(binding)
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var view = convertView
-        val viewHolder: ViewHolder
-        if (view == null) {
-            val inflater = LayoutInflater.from(context)
-            view = inflater.inflate(resource, parent, false)
-            viewHolder = ViewHolder(view)
-        } else
-            viewHolder = view.tag as ViewHolder
-        val dummy = getItem(position)
-        viewHolder.name.text = dummy?.name
-        viewHolder.location.text = dummy?.location
-        viewHolder.timestamp.text = dummy?.timestamp.toString()
-        view?.tag = viewHolder
-        return view!!
+    override fun onBindViewHolder(holder: ListRidesViewHolder, position: Int) = holder.bind(scooterList[position])
+
+    override fun getItemCount() = scooterList.size
+
+    inner class ListRidesViewHolder(private val binding: ListRidesBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(scooter: Scooter){
+            binding.scooterName.text = scooter.name
+            binding.scooterLocation.text = scooter.location
+            binding.scooterTimestamp.text = scooter.timestamp.toString()
+        }
     }
 }

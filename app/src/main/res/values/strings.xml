@@ -10,4 +10,7 @@
     <string name="nav_home">Home</string>
     <string name="nav_start">Start Ride</string>
     <string name="nav_update">Update Ride</string>
+    <string name="add_ride_dialog_title">Add Scooter?</string>
+    <string name="delete_ride_dialog_title">Delete Scooter?</string>
+    <string name="update_ride_dialog_title">Update Scooter?</string>
 </resources>

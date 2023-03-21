@@ -4,36 +4,33 @@ import android.content.Context
 import java.util.Random
 import kotlin.collections.ArrayList
 
-class RidesDB private constructor (context: Context) {
+class RidesDB (context: Context) {
     private val rides = ArrayList<Scooter>()
     companion object: RidesDBHolder<RidesDB,Context>(::RidesDB)
 
     init {
-        rides.add(
-            Scooter(" CPH001 ", " ITU ", randomDate())
-        )
-        rides.add(
-            Scooter(" CPH002 ", " Fields ", randomDate())
-        )
-        rides.add(
+        rides.addAll(0, listOf(
+            Scooter(" CPH001 ", " ITU ", randomDate()),
+            Scooter(" CPH002 ", " Fields ", randomDate()),
             Scooter(" CPH003 ", " Lufthavn ", randomDate())
-        )
+        ))
     }
 
-    fun getRidesList(): List<Scooter> {
+    fun getRidesList(): ArrayList<Scooter> {
         return rides
     }
 
-    fun addScooter(name: String, location: String) {
-        rides.add(
-            Scooter(name,location,randomDate())
-        )
+    fun addScooter(scooter: Scooter) {
+        rides.add(scooter)
     }
 
-    fun updateCurrentScooter(location: String, timestamp: Long) {
-        val scooter = rides.last()
-        scooter.location = location
-        scooter.timestamp = timestamp
+    fun removeScooter(index: Int) {
+        rides.removeAt(index)
+    }
+
+    fun updateCurrentScooter(scooter: Scooter) {
+        rides.last().location = scooter.location
+        rides.last().timestamp = scooter.timestamp
     }
 
     fun getCurrentScooter(): Scooter {
